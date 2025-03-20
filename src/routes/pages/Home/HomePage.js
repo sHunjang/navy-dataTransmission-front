@@ -13,6 +13,9 @@ const HomePage = () => {
                 <li>
                     <Link to="/receive">데이터 수신 페이지</Link>
                 </li>
+                <li>
+                    <Link to="/upload">데이터 업로드 페이지</Link>
+                </li>
             </ul>
         </div>
     );

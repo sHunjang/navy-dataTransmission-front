@@ -4,9 +4,9 @@ import axios from "axios";
 const DataSendPage = () => {
     const [files, setFiles] = useState([]);  // 선택된 파일들
     const [status, setStatus] = useState("");
-    const [time, setTime] = useState("");  // 처리 시간
+    const [time, setTime] = useState("");      // 처리 시간
     const [serverUrl, setServerUrl] = useState("localhost:8080");  // 서버 주소
-    const [threads, setThreads] = useState(10); // 기본 스레드 수를 10으로 설정
+    const [threads, setThreads] = useState(10); // 기본 스레드 수
 
     // 파일 선택 처리
     const handleFileChange = (e) => {
@@ -32,7 +32,7 @@ const DataSendPage = () => {
         const fileNames = Array.from(files).map(file => file.name);
         try {
             const startTime = Date.now();
-            const response = await axios.post(`http://${serverUrl}/send-single`, fileNames, {
+            const response = await axios.post(`http://${serverUrl}/send-single`, { fileNames }, {
                 headers: { "Content-Type": "application/json" },
             });
             const endTime = Date.now();
@@ -63,6 +63,25 @@ const DataSendPage = () => {
         }
     };
 
+    // 실험 결과 자동 저장 함수 (예시 데이터 사용)
+    const saveResult = async () => {
+        const resultData = {
+            experiment_datetime: new Date().toLocaleString(),
+            file_count: files ? files.length : 0,  // files가 undefined이면 0으로 설정
+            single_thread_time: 512, // 예시값
+            multi_thread_results: { "4": 218, "10": 165 } // 예시값
+        };
+    
+        try {
+            const response = await axios.post(`http://${serverUrl}/save-result`, resultData, {
+                headers: { "Content-Type": "application/json" },
+            });
+            setStatus(`실험 결과 저장 완료: ${response.data.filePath}`);
+        } catch (error) {
+            setStatus("실험 결과 저장 실패: " + error.message);
+        }
+    };
+
     return (
         <div>
             <h2>파일 전송</h2>
@@ -90,6 +109,9 @@ const DataSendPage = () => {
             <div>
                 <button onClick={sendDataSingleThread}>단일 스레드로 전송</button>
                 <button onClick={sendDataMultiThread}>멀티 스레드로 전송</button>
+            </div>
+            <div>
+                <button onClick={saveResult}>실험 결과 저장</button>
             </div>
             <p>{status}</p>
             <p>처리 시간: {time} ms</p>

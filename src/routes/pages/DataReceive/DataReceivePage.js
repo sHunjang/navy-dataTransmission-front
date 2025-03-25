@@ -9,7 +9,7 @@ const DataReceivePage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/api/receive");
+                const response = await axios.get("http://localhost:8080/receive");
                 setReceivedData(response.data); // 서버에서 받은 데이터 설정
             } catch (error) {
                 console.error("수신 실패: ", error);

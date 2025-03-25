@@ -7,14 +7,14 @@ const HomePage = () => {
             <h2>홈페이지</h2>
             <p>데이터 전송과 저장 페이지로 이동하려면 아래 링크를 클릭하세요:</p>
             <ul>
-                <li>
+                {/* <li>
                     <Link to="/send">데이터 전송 페이지</Link>
                 </li>
                 <li>
                     <Link to="/receive">데이터 수신 페이지</Link>
-                </li>
+                </li> */}
                 <li>
-                    <Link to="/upload">데이터 업로드 페이지</Link>
+                    <Link to="/upload">데이터 업로드</Link>
                 </li>
             </ul>
         </div>
